@@ -1,7 +1,7 @@
 # RegularUno
 
 ## About
-Uno game ran in IDE. Players are initialized in main by creating a an ArrayList of players and initializing them with a constructor
+Uno game ran in IDE. The program is run from the "Game" file. Players are initialized in main by creating a an ArrayList of players and initializing them with a constructor
 that accepts a string argument containing the player name. Once the desired players are created, invoking the playGame() method will start the game. 
 
 ### Program
