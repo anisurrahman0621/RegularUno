@@ -9,7 +9,7 @@ For every turn, the program will go through the players hand and determine all o
 the "playability" of each card. The program automatically plays the first playable card in the hand so long as one exists. The hand is similar to a queue in that playable cards that were added
 first get played first (dequeuing). 
 
-## Future Plans
+### Future Plans
 
 The traversing of the whole hand is redundant for the current game structure since the first playable card is always played. However, this will come in handy for implementing a GUI or a game structure that requires user input to pick which card to play. The plan is to mark each created player as CPU controlled or user controlled. 
 
