@@ -10,10 +10,10 @@ public class Game {
 		List<Player> players = new ArrayList<>();
 
 		players.add(new Player("Anisur"));
-		players.add(new Player("Moksud"));
-		players.add(new Player("Murad"));
-		players.add(new Player("Morshed"));
-		players.add(new Player("Runu"));
+		players.add(new Player("Tom"));
+		players.add(new Player("Sara"));
+		players.add(new Player("Mike"));
+		players.add(new Player("Liz"));
 		playGame(players);
 
 	}
@@ -24,9 +24,9 @@ public class Game {
 		deck.createDeck();
 
 		Deck playedCards = new Deck();
-		System.out.println("DEALING CARDS");
+		System.out.println("DEALING CARDS\n");
 		for (int j = 0; j < players.size(); j++) { // deal cards out to players
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 7; i++) {
 				Card topOfDeck = deck.getTopCard();
 				players.get(j).hand.add(topOfDeck);
 				// since wild doesn't have a color, printouts will be invoked differently
@@ -41,6 +41,8 @@ public class Game {
 				deck.removeTopCard();
 			}
 		}
+
+		System.out.println("\nGAME BEGINS!\n");
 		Card playedCard = new Card();
 		Card drawnCard = new Card();
 		boolean gameWon = false;
@@ -57,7 +59,7 @@ public class Game {
 			int indexBy = 1; // index by one unless skip is played
 			Player player = players.get(playerIndex);
 			if (deck.size() == 0) { // checking if deck is empty
-				System.out.println("Deck is empty. Played cards will be reshuffled and used as new deck.");
+				System.out.println("\nDeck is empty. Played cards will be reshuffled and used as new deck.\n");
 				deck = playedCards; // if deck is empty, played cards will be used as the new deck
 				deck.shuffle();
 				playedCards = new Deck(); // create an empty pile for played cards
@@ -128,16 +130,17 @@ public class Game {
 					}
 					topCard.setColor(topCard, newColor);
 				}
-			}
-			if (playedCard.getCardType().equals("reverse")) { // reverse direction if reverse is played
-				direction = direction * -1;
-			}
-			// skips and draws all skip the next players turn
-			if (playedCard.getCardType().equals("skip") | playedCard.getCardType().equals("draw 2")
-					| playedCard.getCardType().equals("draw 4")) {
-				indexBy = 2;
-			} else {
-				indexBy = 1;
+
+				if (playedCard.getCardType().equals("reverse")) { // reverse direction if reverse is played
+					direction = direction * -1;
+				}
+				// skips and draws all skip the next players turn
+				if (playedCard.getCardType().equals("skip") | playedCard.getCardType().equals("draw 2")
+						| playedCard.getCardType().equals("draw 4")) {
+					indexBy = 2;
+				} else {
+					indexBy = 1;
+				}
 			}
 			int playerToDraw = playerIndex + 1 * direction; // only the next player one index away can ever be made to
 															// draw
@@ -148,7 +151,7 @@ public class Game {
 				playerToDraw = correctIndex(playerToDraw, players);
 				for (int i = 0; i < 4; i++) {
 					if (deck.size() == 0) { // check to make sure deck isn't empty before drawing
-						System.out.println("Deck is empty. Played cards will be reshuffled and used as new deck.");
+						System.out.println("\nDeck is empty. Played cards will be reshuffled and used as new deck.\n");
 						deck = playedCards;
 						deck.shuffle();
 						playedCards = new Deck();
