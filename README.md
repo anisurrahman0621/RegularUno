@@ -7,7 +7,7 @@ that accepts a string argument containing the player name. Once the desired play
 ### Program
 The game starts with the creation of the deck. The deck is populated according to the official Uno rules. After the deck is created, it is shuffled. A "played card pile" is used to keep count of every card that is played. If the deck is empty, the played card pile is shuffled and becomes the new deck. This process repeats as necessary until the game finishes.
 
-For every turn, the program will go through the player's hand and determine all of the cards that are playable and denote them in an ArrayList of 1s and 0s corresponding to the "playability" of each card. The program automatically plays the first playable card in the hand so long as one exists. The hand is similar to a queue in that playable cards that were added first get played first (dequeuing). 
+For every turn, the program will go through the player's hand and determine all of the cards that are playable and denote them in an ArrayList of 1s and 0s corresponding to the "playability" of each card. The program automatically plays the first playable card in the hand so long as one exists. 
 
 ### Future Plans
 
