@@ -9,7 +9,7 @@ public class Game {
 
 		List<Player> players = new ArrayList<>();
 
-		players.add(new Player("Anisur"));
+		players.add(new Player("Anisur", true));
 		players.add(new Player("Tom"));
 		players.add(new Player("Sara"));
 		players.add(new Player("Mike"));
@@ -47,7 +47,7 @@ public class Game {
 		Card drawnCard = new Card();
 		boolean gameWon = false;
 		int playerIndex = 0; // players are indexed with a var because skips and reverses make for loops
-								// useless
+								// unuseable
 		int direction = 1; // direction will oscillate between 1 and -1 based on reverses played
 		Card topCard = deck.getTopCard();
 		while (topCard.isWild()) { // can't start with a wild card first
@@ -119,6 +119,7 @@ public class Game {
 
 			if (numberOfPlayedCardsBefore != numberOfPlayedCardsAfter) {
 				if (playedCard.isWild()) {
+					if (players.playerIndex.isUserControlled()) {
 					Scanner myObj = new Scanner(System.in); // user will pick next color
 					System.out.println("Pick a color: ");
 					String newColor = myObj.nextLine();
@@ -127,6 +128,9 @@ public class Game {
 							| newColor.equals("yellow"))) {
 						System.out.println("Invalid color. Try again. Pick a color:");
 						newColor = myObj.nextLine();
+					}
+					} else {
+					newColor = players.playerIndex.pickBestColor();
 					}
 					topCard.setColor(topCard, newColor);
 				}
