@@ -27,7 +27,7 @@ public class Game {
 		Deck playedCards = new Deck();
 		System.out.println("DEALING CARDS\n");
 		for (int j = 0; j < players.size(); j++) { // deal cards out to players
-			for (int i = 0; i < 7; i++) {
+			for (int i = 0; i < 3; i++) {
 				Card topOfDeck = deck.getTopCard();
 				players.get(j).hand.add(topOfDeck);
 				// since wild doesn't have a color, printouts will be invoked differently
