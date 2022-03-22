@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class Player {
 
 	final String name;
+	final boolean isUserControlled;
 	public List<Card> hand = new ArrayList<>();
 
 	public Player(String name, List<Card> hand) {
@@ -13,6 +14,15 @@ public class Player {
 
 	public Player(String name) {
 		this.name = name;
+	}
+	public Player(String name, boolean isUserControlled) {
+		this.name = name;
+		this.isUserControlled = isUserControlled
+	}
+	public Player(String name, boolean isUserControlled, List<Card> hand) {
+		this.name = name;
+		this.isUserControlled = isUserControlled;
+		this.hand = hand;
 	}
 
 	public List<Integer> getPlayableCards(Card lastPlayedCard) {
