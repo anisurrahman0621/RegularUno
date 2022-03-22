@@ -9,10 +9,12 @@ The game starts with the creation of the deck. The deck is populated according t
 
 For every turn, the program will go through the player's hand and determine all of the cards that are playable and denote them in an ArrayList of 1s and 0s corresponding to the "playability" of each card. The program automatically plays the first playable card in the hand so long as one exists. Otherwise, the player draws from the deck.
 
+If a user controlled player plays a "wild" card, the program asks the user to choose the next color. Checks are made to ensure that invalid inputs are rejected. If a CPU controlled player plays a "wild" card, the program automatically picks the best possible color at the current time for the CPU by counting how many cards the CPU player has of each color.
+
 ### Future Plans
 
 The traversing of the whole hand is redundant for the current game structure since the first playable card is always played. However, this will come in handy for implementing a GUI or a game structure that requires user input to pick which card to play.
 
-If a user controlled player plays a "wild" card, the program asks the user to choose the next color. Checks are made to ensure that invalid inputs are rejected. If a CPU controlled player plays a "wild" card, the program automatically picks the best possible color at the current time for the CPU by counting how many cards the CPU player has of each color.
+
 
 
