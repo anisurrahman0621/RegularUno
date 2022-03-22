@@ -10,10 +10,10 @@ public class Game {
 		List<Player> players = new ArrayList<>();
 
 		players.add(new Player("Anisur", true));
-		players.add(new Player("Tom"));
-		players.add(new Player("Sara"));
-		players.add(new Player("Mike"));
-		players.add(new Player("Liz"));
+		players.add(new Player("Tom", false));
+		players.add(new Player("Sara", false));
+		players.add(new Player("Mike", false));
+		players.add(new Player("Liz", false));
 		playGame(players);
 
 	}
@@ -22,11 +22,12 @@ public class Game {
 
 		Deck deck = new Deck();
 		deck.createDeck();
+		boolean cardWasPlayed;
 
 		Deck playedCards = new Deck();
 		System.out.println("DEALING CARDS\n");
 		for (int j = 0; j < players.size(); j++) { // deal cards out to players
-			for (int i = 0; i < 7; i++) {
+			for (int i = 0; i < 3; i++) {
 				Card topOfDeck = deck.getTopCard();
 				players.get(j).hand.add(topOfDeck);
 				// since wild doesn't have a color, printouts will be invoked differently
@@ -55,6 +56,8 @@ public class Game {
 			playedCards.addCard(topCard);
 			topCard = deck.getTopCard();
 		}
+		System.out.println("\nCards are dealt. First card is a " + topCard.getColor() + " " + topCard.getCardType() + "\n");
+		deck.removeTopCard();
 		while (!gameWon) {
 			int indexBy = 1; // index by one unless skip is played
 			Player player = players.get(playerIndex);
@@ -67,6 +70,7 @@ public class Game {
 			List<Integer> playableCards = player.getPlayableCards(topCard);
 			int numberOfPlayedCardsBefore = playedCards.size() - 1;
 			if (Collections.max(playableCards) == 0) {
+				cardWasPlayed = false;
 				drawCard(player, deck);
 				drawnCard = player.hand.get(player.hand.size() - 1);
 				if (!drawnCard.isWild()) {
@@ -78,6 +82,7 @@ public class Game {
 					System.out.println(player.name + " has no playable cards. " + player.name + " drew a wild");
 				}
 			} else {
+				cardWasPlayed = true;
 				int handIndex = 0;
 				for (int bool : playableCards) {
 					if (bool == 1) {
@@ -106,7 +111,9 @@ public class Game {
 				System.out.println("GAME OVER! " + player.name + " has won. Congratulations!");
 				break;
 			}
+			if(cardWasPlayed) {
 			topCard = playedCard;
+			}
 			int numberOfPlayedCardsAfter = playedCards.size() - 1;
 
 			/*
@@ -117,20 +124,24 @@ public class Game {
 			 * pick a color again even though a new wild card wasn't played
 			 */
 
+			String newColor;
+
 			if (numberOfPlayedCardsBefore != numberOfPlayedCardsAfter) {
 				if (playedCard.isWild()) {
-					if (players.playerIndex.isUserControlled()) {
-					Scanner myObj = new Scanner(System.in); // user will pick next color
-					System.out.println("Pick a color: ");
-					String newColor = myObj.nextLine();
-					// validate that the input is a valid color and no typos
-					while (!(newColor.equals("red") | newColor.equals("blue") | newColor.equals("green")
-							| newColor.equals("yellow"))) {
-						System.out.println("Invalid color. Try again. Pick a color:");
+					if (players.get(playerIndex).isUserControlled()) {
+						Scanner myObj = new Scanner(System.in); // user will pick next color
+						System.out.println("Pick a color: ");
 						newColor = myObj.nextLine();
-					}
+						// validate that the input is a valid color and no typos
+						while (!(newColor.equals("red") | newColor.equals("blue") | newColor.equals("green")
+								| newColor.equals("yellow"))) {
+							System.out.println("Invalid color. Try again. Pick a color:");
+							newColor = myObj.nextLine();
+						}
 					} else {
-					newColor = players.playerIndex.pickBestColor();
+						newColor = players.get(playerIndex).pickBestColor(players.get(playerIndex).hand);
+						System.out.println(
+								"CPU controlled player " + players.get(playerIndex).name + " chose " + newColor);
 					}
 					topCard.setColor(topCard, newColor);
 				}
@@ -151,7 +162,7 @@ public class Game {
 			playerIndex += indexBy * direction;
 			playerIndex = correctIndex(playerIndex, players); // bring index within proper bounds
 
-			if (topCard.getCardType().equals("draw 4")) {
+			if (topCard.getCardType().equals("draw 4") & numberOfPlayedCardsBefore != numberOfPlayedCardsAfter) {
 				playerToDraw = correctIndex(playerToDraw, players);
 				for (int i = 0; i < 4; i++) {
 					if (deck.size() == 0) { // check to make sure deck isn't empty before drawing
@@ -172,7 +183,8 @@ public class Game {
 					}
 				}
 			}
-
+			
+			if (cardWasPlayed){
 			if (playedCard.getCardType().equals("draw 2")) {
 				playerToDraw = correctIndex(playerToDraw, players);
 				for (int i = 0; i < 2; i++) {
@@ -191,6 +203,30 @@ public class Game {
 						System.out.println(players.get(playerToDraw).name + " drew a wild draw 4");
 					} else {
 						System.out.println(players.get(playerToDraw).name + " drew a wild");
+					}
+				}
+			}
+		}
+			else {
+				if (topCard.getCardType().equals("draw 2")) {
+					playerToDraw = correctIndex(playerToDraw, players);
+					for (int i = 0; i < 2; i++) {
+						if (deck.size() == 0) {// check to make sure deck isn't empty before drawing
+							System.out.println("Deck is empty. Played cards will be reshuffled and used as new deck.");
+							deck = playedCards;
+							deck.shuffle();
+							playedCards = new Deck();
+						}
+						drawCard(players.get(playerToDraw), deck);
+						drawnCard = players.get(playerToDraw).hand.get(players.get(playerToDraw).hand.size() - 1);
+						if (!drawnCard.isWild()) {
+							System.out.println(players.get(playerToDraw).name + " drew a " + drawnCard.getColor() + " "
+									+ drawnCard.getCardType());
+						} else if (drawnCard.getCardType().equals("draw 4")) {
+							System.out.println(players.get(playerToDraw).name + " drew a wild draw 4");
+						} else {
+							System.out.println(players.get(playerToDraw).name + " drew a wild");
+						}
 					}
 				}
 			}
