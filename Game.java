@@ -27,7 +27,7 @@ public class Game {
 		Deck playedCards = new Deck();
 		System.out.println("DEALING CARDS\n");
 		for (int j = 0; j < players.size(); j++) { // deal cards out to players
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < 7; i++) {
 				Card topOfDeck = deck.getTopCard();
 				players.get(j).hand.add(topOfDeck);
 				// since wild doesn't have a color, printouts will be invoked differently
@@ -56,7 +56,8 @@ public class Game {
 			playedCards.addCard(topCard);
 			topCard = deck.getTopCard();
 		}
-		System.out.println("\nCards are dealt. First card is a " + topCard.getColor() + " " + topCard.getCardType() + "\n");
+		System.out.println(
+				"\nCards are dealt. First card is a " + topCard.getColor() + " " + topCard.getCardType() + "\n");
 		deck.removeTopCard();
 		while (!gameWon) {
 			int indexBy = 1; // index by one unless skip is played
@@ -111,8 +112,8 @@ public class Game {
 				System.out.println("GAME OVER! " + player.name + " has won. Congratulations!");
 				break;
 			}
-			if(cardWasPlayed) {
-			topCard = playedCard;
+			if (cardWasPlayed) {
+				topCard = playedCard;
 			}
 			int numberOfPlayedCardsAfter = playedCards.size() - 1;
 
@@ -159,8 +160,6 @@ public class Game {
 			}
 			int playerToDraw = playerIndex + 1 * direction; // only the next player one index away can ever be made to
 															// draw
-			playerIndex += indexBy * direction;
-			playerIndex = correctIndex(playerIndex, players); // bring index within proper bounds
 
 			if (topCard.getCardType().equals("draw 4") & numberOfPlayedCardsBefore != numberOfPlayedCardsAfter) {
 				playerToDraw = correctIndex(playerToDraw, players);
@@ -183,31 +182,30 @@ public class Game {
 					}
 				}
 			}
-			
-			if (cardWasPlayed){
-			if (playedCard.getCardType().equals("draw 2")) {
-				playerToDraw = correctIndex(playerToDraw, players);
-				for (int i = 0; i < 2; i++) {
-					if (deck.size() == 0) {// check to make sure deck isn't empty before drawing
-						System.out.println("Deck is empty. Played cards will be reshuffled and used as new deck.");
-						deck = playedCards;
-						deck.shuffle();
-						playedCards = new Deck();
-					}
-					drawCard(players.get(playerToDraw), deck);
-					drawnCard = players.get(playerToDraw).hand.get(players.get(playerToDraw).hand.size() - 1);
-					if (!drawnCard.isWild()) {
-						System.out.println(players.get(playerToDraw).name + " drew a " + drawnCard.getColor() + " "
-								+ drawnCard.getCardType());
-					} else if (drawnCard.getCardType().equals("draw 4")) {
-						System.out.println(players.get(playerToDraw).name + " drew a wild draw 4");
-					} else {
-						System.out.println(players.get(playerToDraw).name + " drew a wild");
+
+			if (cardWasPlayed) {
+				if (playedCard.getCardType().equals("draw 2")) {
+					playerToDraw = correctIndex(playerToDraw, players);
+					for (int i = 0; i < 2; i++) {
+						if (deck.size() == 0) {// check to make sure deck isn't empty before drawing
+							System.out.println("Deck is empty. Played cards will be reshuffled and used as new deck.");
+							deck = playedCards;
+							deck.shuffle();
+							playedCards = new Deck();
+						}
+						drawCard(players.get(playerToDraw), deck);
+						drawnCard = players.get(playerToDraw).hand.get(players.get(playerToDraw).hand.size() - 1);
+						if (!drawnCard.isWild()) {
+							System.out.println(players.get(playerToDraw).name + " drew a " + drawnCard.getColor() + " "
+									+ drawnCard.getCardType());
+						} else if (drawnCard.getCardType().equals("draw 4")) {
+							System.out.println(players.get(playerToDraw).name + " drew a wild draw 4");
+						} else {
+							System.out.println(players.get(playerToDraw).name + " drew a wild");
+						}
 					}
 				}
-			}
-		}
-			else {
+			} else {
 				if (topCard.getCardType().equals("draw 2")) {
 					playerToDraw = correctIndex(playerToDraw, players);
 					for (int i = 0; i < 2; i++) {
@@ -230,6 +228,8 @@ public class Game {
 					}
 				}
 			}
+			playerIndex += indexBy * direction;
+			playerIndex = correctIndex(playerIndex, players); // bring index within proper bounds
 		}
 	}
 
