@@ -1,7 +1,7 @@
 # RegularUno
 
 ## About
-Uno game ran in IDE where user controlled players can play against the CPU or against other players. The program is run from the "Game" file. Players are initialized in the main method by creating a an ArrayList of players and initializing them with a constructor that accepts a string argument containing the player name and a boolean value that denotes whether or not a player is user controlled. Once the desired players are created, invoking the playGame() method will start the game. 
+Uno game ran in IDE where user controlled players can play against the CPU or against other players. The program is run from the "Main Game File" file. Players are initialized in the main method by creating a an ArrayList of players and initializing them with a constructor that accepts a string argument containing the player name and a boolean value that denotes whether or not a player is user controlled. Once the desired players are created, invoking the playGame() method will start the game. 
 
 ### Program
 
